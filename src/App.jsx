@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import { Landing } from "./pages";
+import { Farmers, Farms, Landing, Users } from "./pages";
 import { HomeLayout, DashboardLayout } from "./components";
 import { NavigationProvider } from "./context/NavigationContext";
 const router = createBrowserRouter([
@@ -32,15 +32,15 @@ const router = createBrowserRouter([
       },
       {
         path: "users",
-        element: <h1>Users</h1>,
+        element: <Users />,
       },
       {
         path: "farmers",
-        element: <h1>Farmers</h1>,
+        element: <Farmers />,
       },
       {
         path: "farms",
-        element: <h1>Farms</h1>,
+        element: <Farms />,
       },
     ],
   },

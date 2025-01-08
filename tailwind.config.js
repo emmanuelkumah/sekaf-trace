@@ -8,6 +8,11 @@ export default {
       fontFamily: {
         sans: ["Roboto", "system-ui", "sans-serif"],
       },
+      colors: {
+        primary: "#DA4167",
+        secondary: "#eb99ad",
+        accent: "#000000",
+      },
     },
   },
   plugins: [flowbite.plugin()],

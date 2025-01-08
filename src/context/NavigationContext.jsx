@@ -3,7 +3,7 @@ import { useContext, useState, createContext } from "react";
 const NavigationContext = createContext({});
 
 export function NavigationProvider({ children }) {
-  const [activeMenu, setActiveMenu] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(undefined);
   const [showSubMenu, setShowSubMenu] = useState(true);
   const value = {

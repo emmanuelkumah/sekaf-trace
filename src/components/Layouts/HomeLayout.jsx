@@ -9,13 +9,9 @@ const HomeLayout = () => {
       <nav className="container mx-auto fixed top-0 left-0 right-0 z-50">
         <Navbar fluid rounded>
           <Navbar.Brand as={Link} href="#">
-            <img
-              src={logo}
-              className="mr-3 h-6 sm:h-9"
-              alt="Flowbite React Logo"
-            />
+            <img src={logo} className="mr-3 h-6 sm:h-9" alt="Reality maker" />
             <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-              FarmTrace
+              RML Trace
             </span>
           </Navbar.Brand>
           <div className="flex md:gap-6 md:order-2">
