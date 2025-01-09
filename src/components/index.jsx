@@ -6,3 +6,4 @@ export { default as DashboardLayout } from "./Layouts/DashboardLayout";
 export { default as DisplayUser } from "./ui/DisplayUser";
 export { default as DisplayFarmers } from "./ui/DisplayFarmers";
 export { default as DisplayFarms } from "./ui/DisplayFarms";
+export { default as AddUserForm } from "./ui/AddUserForm";

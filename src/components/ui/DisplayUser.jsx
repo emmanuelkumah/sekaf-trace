@@ -26,7 +26,7 @@ const DisplayUser = () => {
             type="buton"
             className="bg-accent mt-[20%] cursor-pointer md:mt-10 text-primary hover:text-slate-100 hover:bg-secondary"
           >
-            <Link to="new" className="text-white">
+            <Link to="new-user" className="text-white">
               {" "}
               Add new user
             </Link>

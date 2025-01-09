@@ -1,8 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import { Farmers, Farms, Landing, Users } from "./pages";
+import { AddUser, Farmers, Farms, Landing, Users } from "./pages";
 import { HomeLayout, DashboardLayout } from "./components";
 import { NavigationProvider } from "./context/NavigationContext";
+import { action as addUserAction } from "./components/ui/AddUserForm";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,7 +34,17 @@ const router = createBrowserRouter([
       },
       {
         path: "users",
-        element: <Users />,
+        children: [
+          {
+            index: true,
+            element: <Users />,
+          },
+          {
+            path: "new-user",
+            element: <AddUser />,
+            action: addUserAction,
+          },
+        ],
       },
       {
         path: "farmers",
