@@ -37,7 +37,7 @@ const DisplayFarmers = () => {
   };
 
   return (
-    <div>
+    <div className="container mx-auto">
       <div className="my-10">
         <div className="flex justify-between">
           <Button className="bg-secondary text-primary hover:text-slate-100 hover:bg-main mt-10">

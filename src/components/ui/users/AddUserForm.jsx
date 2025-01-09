@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { TextInput, Alert, Datepicker, Select } from "flowbite-react";
+import { TextInput, Select } from "flowbite-react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 import { useFetcher, data, redirect } from "react-router-dom";
-import validateUserForm from "../../utils/validateUserForm";
-import PasswordStrengthIndicator from "./PasswordStrengthIndicator";
-import BackButton from "./BackButton";
+import BackButton from "../BackButton";
+import ActionBtn from "../ActionBtn";
 // import { Form } from "react-router-dom";
 const AddUserForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,8 +15,12 @@ const AddUserForm = () => {
 
   return (
     <div className="container mx-auto">
+      <BackButton />
       <div>
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+          <h2 className="text-2xl font-semibold text-gray-900 py-4">
+            Add User
+          </h2>
           <fetcher.Form className="space-y-4" method="post">
             <div>
               <label
@@ -56,6 +59,7 @@ const AddUserForm = () => {
               <label
                 htmlFor="phone"
                 className="block text-sm font-medium text-gray-700"
+                color={errors?.phone && "failure"}
               >
                 Phone
               </label>
@@ -64,10 +68,11 @@ const AddUserForm = () => {
                 id="phone"
                 name="phone"
                 defaultValue=""
+                color={errors?.phone && "failure"}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 required
               />
-              {errors?.phoneNumber && (
+              {errors?.phone && (
                 <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
               )}
             </div>
@@ -75,6 +80,7 @@ const AddUserForm = () => {
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
+                color={errors?.email && "failure"}
               >
                 Email
               </label>
@@ -82,6 +88,7 @@ const AddUserForm = () => {
                 type="email"
                 id="email"
                 name="email"
+                color={errors?.email && "failure"}
                 defaultValue=""
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 required
@@ -94,6 +101,7 @@ const AddUserForm = () => {
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
+                color={errors?.password && "failure"}
               >
                 Password
               </label>
@@ -102,6 +110,7 @@ const AddUserForm = () => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
+                  color={errors?.password && "failure"}
                   defaultValue=""
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   required
@@ -118,7 +127,6 @@ const AddUserForm = () => {
                   )}
                 </button>
               </div>
-              <PasswordStrengthIndicator password={"test"} />
               {errors?.password && (
                 <p className="mt-1 text-sm text-red-600">{errors.password}</p>
               )}
@@ -127,6 +135,7 @@ const AddUserForm = () => {
               <label
                 htmlFor="confirmPassword"
                 className="block text-sm font-medium text-gray-700"
+                color={errors?.confirmPassword && "failure"}
               >
                 Confirm Password
               </label>
@@ -134,15 +143,16 @@ const AddUserForm = () => {
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
+                color={errors?.confirmPassword && "failure"}
                 defaultValue=""
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 required
               />
-              {/* {errors.confirmPassword && (
+              {errors?.confirmPassword && (
                 <p className="mt-1 text-sm text-red-600">
                   {errors.confirmPassword}
                 </p>
-              )} */}
+              )}
             </div>
             <section>
               <label
@@ -151,11 +161,7 @@ const AddUserForm = () => {
               >
                 Select User role
               </label>
-              <Select
-                onChange={() => console.log("role change")}
-                defaultValue="Tet"
-                name="userRole"
-              >
+              <Select defaultValue="" name="userRole">
                 <option value="">Select a role</option>
                 <option value="ADMIN">Admin</option>
                 <option value="FARM_AGENT">Farm agent</option>
@@ -164,22 +170,8 @@ const AddUserForm = () => {
                 <option value="EXPORTER ">Exporter</option>
               </Select>
             </section>
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-main hover:bg-secondary hover:text-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main"
-              >
-                {busy ? "submitting" : "submit"}
-              </button>
-            </div>
+            <ActionBtn>{busy ? "submitting" : "submit"}</ActionBtn>
           </fetcher.Form>
-          {/* {Object.keys(errors).length > 0 && (
-            <Alert className="mt-4" color="failure" icon={HiInformationCircle}>
-              <span>
-                Please correct the errors in the form before submitting.
-              </span>
-            </Alert>
-          )} */}
         </div>
       </div>
     </div>
@@ -196,19 +188,30 @@ export const action = async ({ request }) => {
     lastName: formData.get("lastName"),
     phone: formData.get("phone"),
     email: formData.get("email"),
-    passsword: formData.get("password"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+    userRole: formData.get("userRole"),
   };
-  console.log(userFormData);
   const errors = {};
-  // if (!userFormData.email.includes("@")) {
-  //   errors.email = "Invalid email address";
-  // }
-  // if (userFormData.password.length < 6) {
-  //   errors.password = "Password must be at least 6 characters long";
-  // }
-  // if (Object.keys(errors).length > 0) {
-  //   return data({ errors }, { status: 400 });
-  // }
+
+  if (!/[^A-Za-z0-9]/.test(userFormData.password)) {
+    errors.password =
+      "Password must include lowercase, uppercase, number, and special character";
+  }
+
+  if (!userFormData.email.includes("@")) {
+    errors.email = "Invalid email address";
+  }
+  if (userFormData.password !== userFormData.confirmPassword) {
+    errors.confirmPassword = "Passwords do not match";
+  }
+  if (userFormData.phone.length !== 10 || userFormData.phone[0] !== "0") {
+    errors.phone = "Invalid phone number. Please provide a 10-digit number.";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return data({ errors }, { status: 400 });
+  }
 
   return redirect("/app/users");
 };

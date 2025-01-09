@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Table, Button, Alert } from "flowbite-react";
 import { MdEdit, MdPassword } from "react-icons/md";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import { dummyUsers } from "../../utils/dummyData";
+import { dummyUsers } from "../../../utils/dummyData";
 
 import { Link, useSearchParams, useLoaderData } from "react-router-dom";
 const DisplayUser = () => {
@@ -83,7 +83,7 @@ const DisplayUser = () => {
 
                       <Table.Cell>
                         <div className="flex justify-end gap-5">
-                          <Link to={`${user.id}/edit`}>
+                          <Link to={`${user.id}/edit-user`}>
                             <MdEdit className="text-xl hover:text-teal-500 cursor-pointer" />
                           </Link>
                           <div>

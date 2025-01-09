@@ -1,9 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import { AddUser, Farmers, Farms, Landing, Users } from "./pages";
-import { HomeLayout, DashboardLayout } from "./components";
+import { AddUser, EditUser, Farmers, Farms, Landing, Users } from "./pages";
+import {
+  HomeLayout,
+  DashboardLayout,
+  ResetPasswordForm,
+  UpdateUserStatus,
+} from "./components";
 import { NavigationProvider } from "./context/NavigationContext";
-import { action as addUserAction } from "./components/ui/AddUserForm";
+import { action as addUserAction } from "./components/ui/users/AddUserForm";
+import { action as resetPasswordAction } from "./components/ui/users/ResetPasswordForm";
+import { action as updateUserAction } from "./components/ui/users/UpdateUserStatus";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +50,20 @@ const router = createBrowserRouter([
             path: "new-user",
             element: <AddUser />,
             action: addUserAction,
+          },
+          {
+            path: ":id/edit-user",
+            element: <EditUser />,
+          },
+          {
+            path: ":id/reset-password",
+            element: <ResetPasswordForm />,
+            action: resetPasswordAction,
+          },
+          {
+            path: ":id/update-status",
+            element: <UpdateUserStatus />,
+            action: updateUserAction,
           },
         ],
       },

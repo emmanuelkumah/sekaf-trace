@@ -3,7 +3,7 @@ import { DisplayFarms } from "../components";
 
 const Farms = () => {
   return (
-    <div className="container">
+    <div>
       <DisplayFarms />
     </div>
   );

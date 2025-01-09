@@ -46,8 +46,8 @@ const DisplayFarms = () => {
     navigate(`${farmerId}/edit?page=${page}`);
   };
   return (
-    <>
-      <div className="my-10">
+    <div className="container mx-auto">
+      <div>
         <div className="flex justify-between">
           <Button className="bg-secondary text-primary hover:text-slate-100 hover:bg-main mt-10">
             <Link to="new">Add new farm</Link>
@@ -176,7 +176,7 @@ const DisplayFarms = () => {
           Showing page {currentPage} of {totalPages}
         </p>
       </div>
-    </>
+    </div>
   );
 };
 export default DisplayFarms;
