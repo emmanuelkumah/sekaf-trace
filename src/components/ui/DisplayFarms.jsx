@@ -134,15 +134,15 @@ const DisplayFarms = () => {
                     </Table.Cell>
                     <div className="flex justify-end">
                       <Table.Cell className="">
-                        <Link to={`${farm.id}/activities`}>
-                          <Button className="bg-main hover:bg-secondary">
+                        <Link to={`${farm.id}/activity`}>
+                          <Button className="bg-secondary hover:bg-accent">
                             Start Activity
                           </Button>
                         </Link>
                       </Table.Cell>
                       <Table.Cell className="">
                         <Link to={`${farm.id}/viewactivities`}>
-                          <Button className="bg-main hover:bg-secondary">
+                          <Button className="bg-accent hover:bg-secondary">
                             View Activity
                           </Button>
                         </Link>

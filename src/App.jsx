@@ -1,6 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import { AddUser, EditUser, Farmers, Farms, Landing, Users } from "./pages";
+import {
+  AddFarmer,
+  AddUser,
+  DisplayFarmActivities,
+  EditFarmer,
+  EditUser,
+  Farmers,
+  Farms,
+  Landing,
+  StartFarmActivity,
+  SubmitPreplantingActivity,
+  Users,
+} from "./pages";
 import {
   HomeLayout,
   DashboardLayout,
@@ -69,11 +81,86 @@ const router = createBrowserRouter([
       },
       {
         path: "farmers",
-        element: <Farmers />,
+        children: [
+          {
+            index: true,
+            element: <Farmers />,
+          },
+          {
+            path: "new",
+            element: <AddFarmer />,
+          },
+          {
+            path: ":id/edit",
+            element: <EditFarmer />,
+          },
+        ],
       },
       {
         path: "farms",
-        element: <Farms />,
+        children: [
+          {
+            index: true,
+            element: <Farms />,
+          },
+          {
+            path: ":id/activity",
+            children: [
+              {
+                index: true,
+                element: <StartFarmActivity />,
+              },
+              {
+                path: "pre-planting",
+                element: <SubmitPreplantingActivity />,
+              },
+              {
+                path: "planting",
+                element: <h1>Planting screen</h1>,
+              },
+              {
+                path: "land-preparation",
+                element: <h1>Land preparation screen</h1>,
+              },
+              {
+                path: "harvesting",
+                element: <h1>Harvesting screen</h1>,
+              },
+              {
+                path: "weed-control",
+                element: <h1>Weed control</h1>,
+              },
+              {
+                path: "pest-control",
+                element: <h1>Pest control</h1>,
+              },
+              {
+                path: "fertilizing",
+                element: <h1>Fertilizing screen</h1>,
+              },
+              {
+                path: "storage",
+                element: <h1>Storage</h1>,
+              },
+              {
+                path: "sales",
+                element: <h1>Sales</h1>,
+              },
+              {
+                path: "shipment",
+                element: <h1>Shipment</h1>,
+              },
+              {
+                path: "transportation",
+                element: <h1>Transportation</h1>,
+              },
+            ],
+          },
+          {
+            path: ":id/viewActivities",
+            element: <DisplayFarmActivities />,
+          },
+        ],
       },
     ],
   },

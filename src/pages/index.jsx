@@ -4,3 +4,8 @@ export { default as Farmers } from "./Farmers";
 export { default as Farms } from "./Farms";
 export { default as AddUser } from "./AddUser";
 export { default as EditUser } from "./EditUser";
+export { default as AddFarmer } from "./AddFarmer";
+export { default as EditFarmer } from "./EditFarmer";
+export { default as DisplayFarmActivities } from "./DisplayFarmActivities";
+export { default as StartFarmActivity } from "./StartFarmActivity";
+export { default as SubmitPreplantingActivity } from "./SubmitPreplantingActivity";

@@ -1,0 +1,367 @@
+import React, { act, useState } from "react";
+import {
+  Label,
+  TextInput,
+  Datepicker,
+  Select,
+  Radio,
+  Button,
+  Alert,
+} from "flowbite-react";
+import { HiInformationCircle } from "react-icons/hi";
+import { useFetcher } from "react-router-dom";
+import ActionBtn from "../../ActionBtn";
+
+const PrePlantingForm = () => {
+  const [activities, setFormActivities] = useState({
+    activityDate: new Date(),
+    plantingMaterialSource: "",
+    otherPlantingMaterialSource: "",
+    plantingMaterial: "",
+    plantingMaterialQuantity: "1",
+    plantingMaterialYield: "",
+    isPlantingMaterialTreated: "no",
+    plantingMaterialTreatmentMethod: "",
+    otherTreatmentMethod: "",
+    chemicalSprayed: "",
+    rateOfChemicalApplication: "",
+    supervisorName: "",
+    supervisorContact: "",
+    supervisorQualification: "",
+    otherSupervisorQualification: "",
+  });
+  console.log(activities);
+  const defaultValue = new Date();
+  console.log(defaultValue); //change date format
+  const fetcher = useFetcher();
+  let busy = fetcher.state !== "idle";
+
+  const handleActivityChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormActivities((prevVal) => ({
+      ...prevVal,
+      [name]: type === "checked" ? checked : value,
+    }));
+  };
+
+  const handleActivityDate = (date) => {
+    console.log("active date");
+    // const formattedDate = date.toISOString();
+    // console.log(date);
+    // setFormActivities((prev) => ({
+    //   ...prev,
+    //   activityDate: formattedDate,
+    // }));
+    //   setActivityDate(formattedDate);
+  };
+  return (
+    <main className="container mx-auto">
+      <fetcher.Form method="post" className="w-full">
+        <div className="grid grid-cols-1">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
+              <Label
+                htmlFor="date"
+                value="Select the activity date"
+                className="mb-2"
+              />
+              <input
+                type="date"
+                name="activityDate"
+                id="date"
+                min={new Date()}
+                value={activities.activityDate}
+                onChange={handleActivityChange}
+              />
+              {/* <Datepicker
+                id="date"
+                placeholder="Select date"
+                value={activities.activityDate}
+                onSelectedDateChanged={(date) => handleActivityDate(date)}
+                name="activityDate"
+                required={true}
+              /> */}
+
+              <div className="my-4">
+                <div className="flex flex-col">
+                  <Label
+                    htmlFor="source"
+                    value="Select source of planting material"
+                    className="my-2 font-semibold"
+                  />
+
+                  <Select
+                    id="source"
+                    name="plantingMaterialSource"
+                    required
+                    value={activities.plantingMaterialSource}
+                    onChange={handleActivityChange}
+                  >
+                    <option value="Local inputs dealer">
+                      Local inputs dealer
+                    </option>
+                    <option value="MOFA">MOFA</option>
+                    <option value="BJL">BJL</option>
+                    <option value="Own field">Own field</option>
+                    <option value="Imported">Imported</option>
+                    <option value="Others">Others</option>
+                  </Select>
+                </div>
+
+                {activities.plantingMaterialSource === "Others" && (
+                  <div className="flex flex-col">
+                    <Label
+                      htmlFor="seed"
+                      value="Other Source"
+                      className="my-2 font-semibold"
+                    />
+                    <TextInput
+                      id="seed"
+                      type="text"
+                      name="otherPlantingMaterialSource"
+                      value={activities.otherPlantingMaterialSource}
+                      onChange={handleActivityChange}
+                      placeholder="Enter where you got the source from"
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="my-4">
+                <Label
+                  htmlFor="planting"
+                  value="Select planting material"
+                  className="my-2 font-semibold"
+                />
+                <Select
+                  id="planting"
+                  required
+                  name="plantingMaterial"
+                  value={activities.plantingMaterial}
+                  onChange={handleActivityChange}
+                >
+                  <option>Select the planting material</option>
+                  <option value="seed">Seed</option>
+                  <option value="sucker">Sucker</option>
+                  <option value="seedlings">Seedlings</option>
+                  <option value="tuber">Tuber</option>
+                  <option value="stem">Stem</option>
+                  <option value="rhizome">Rhizome</option>
+                  <option value="bulbs">Bulbs</option>
+                </Select>
+              </div>
+              <div className="my-4">
+                <Label
+                  htmlFor="quantity"
+                  value="Quantity of planting material"
+                  className="my-2 font-semibold"
+                />
+                <TextInput
+                  id="quantity"
+                  type="number"
+                  min="1"
+                  name="plantingMaterialQuantity"
+                  value={activities.plantingMaterialQuantity}
+                  onChange={handleActivityChange}
+                  placeholder="Enter quantity"
+                />
+              </div>
+              <div className="my-4">
+                <Label
+                  htmlFor="yield"
+                  value="Yield of planting material per acre"
+                  className="mb-2 font-semibold"
+                />
+                <TextInput
+                  id="yield"
+                  type="number"
+                  min="1"
+                  name="plantingMaterialYield"
+                  placeholder="Enter yield"
+                  value={activities.plantingMaterialYield}
+                  onChange={handleActivityChange}
+                />
+              </div>
+              <div className="my-4">
+                <fieldset className="flex flex-col gap-4">
+                  <legend className="my-2 font-semibold">
+                    Was planting material treated?
+                  </legend>
+                  <div className="flex items-center gap-2">
+                    <Radio
+                      id="yes-treatment"
+                      name="isPlantingMaterialTreated"
+                      value="yes"
+                      checked={activities.isPlantingMaterialTreated === "yes"}
+                      onChange={handleActivityChange}
+                    />
+                    <Label htmlFor="yes-treatment">Yes</Label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Radio
+                      id="no-treatment"
+                      name="isPlantingMaterialTreated"
+                      value="no"
+                      checked={activities.isPlantingMaterialTreated === "no"}
+                      onChange={handleActivityChange}
+                    />
+                    <Label htmlFor="no-treatment">No</Label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          {activities.isPlantingMaterialTreated === "yes" && (
+            <div className="flex flex-col gap-4">
+              <div>
+                <Label
+                  className="mb-2 font-semibold"
+                  htmlFor="method"
+                  value="Select treatment method"
+                />
+                <Select
+                  id="method"
+                  required
+                  name="plantingMaterialTreatmentMethod"
+                  value={activities.plantingMaterialTreatmentMethod}
+                  onChange={handleActivityChange}
+                >
+                  <option value="Chemical">Chemical</option>
+                  <option value="Hot water">Hot water</option>
+                  <option value="Other">Other</option>
+                </Select>
+                {activities.plantingMaterialTreatmentMethod === "Other" && (
+                  <div className="my-4">
+                    <Label
+                      className="mb-2 font-semibold"
+                      htmlFor="other"
+                      value="Other treatment method or chemical used"
+                    />
+                    <TextInput
+                      id="other"
+                      type="text"
+                      required
+                      name="otherTreatmentMethod"
+                      value={activities.otherTreatmentMethod}
+                      placeholder="Enter the other treatment method or chemical used"
+                      onChange={handleActivityChange}
+                    />
+                  </div>
+                )}
+              </div>
+              {activities.plantingMaterialTreatmentMethod === "Chemical" && (
+                <section>
+                  <div className="my-4">
+                    <div>
+                      <Label
+                        htmlFor="chemical"
+                        value="Name of chemical"
+                        className="mb-2"
+                      />
+                      <TextInput
+                        id="chemical"
+                        type="text"
+                        name="chemicalSprayed"
+                        required
+                        placeholder="Enter chemical name "
+                        value={activities.chemicalSprayed}
+                        onChange={handleActivityChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="my-4">
+                    <div className="flex flex-col">
+                      <Label
+                        htmlFor="rate"
+                        value="Rate of chemical application(ml)"
+                        className="mb-2"
+                      />
+                      <TextInput
+                        id="rate"
+                        type="number"
+                        name="rateOfChemicalApplication"
+                        required
+                        placeholder="Enter rate of chemical application "
+                        value={activities.rateOfChemicalApplication}
+                        onChange={handleActivityChange}
+                      />
+                    </div>
+                  </div>
+                  <section>
+                    <div className="my-2">
+                      <Label
+                        htmlFor="supervisor"
+                        value="Supervisor"
+                        className="my-2 font-semibold"
+                      />
+                      <TextInput
+                        type="text"
+                        required
+                        placeholder="Enter name of supervisor"
+                        id="supervisor"
+                        name="supervisorName"
+                        value={activities.supervisorName}
+                        onChange={handleActivityChange}
+                      />
+                    </div>
+                    <div className="my-2">
+                      <Label
+                        htmlFor="supervisor"
+                        value="Supervisor Contact"
+                        className="my-2 font-semibold"
+                      />
+                      <TextInput
+                        type="number"
+                        required
+                        placeholder="Enter contact of supervisor"
+                        id="supervisor"
+                        name="supervisorContact"
+                        value={activities.supervisorContact}
+                        onChange={handleActivityChange}
+                      />
+                    </div>
+                    <div className="my-2">
+                      <Label
+                        htmlFor="cert"
+                        value="Select supervisor certificate"
+                        className="my-2 font-semibold"
+                      />
+
+                      <Select
+                        id="cert"
+                        required
+                        name="supervisorQualification"
+                        value={activities.supervisorQualification}
+                        onChange={handleActivityChange}
+                      >
+                        <option value="MOFA">MOFA</option>
+                        <option value="EPA">EPA</option>
+                        <option value="PPRSD/NPPO">PPRSD/NPPO</option>
+                        <option value="Others">Others</option>
+                      </Select>
+                      {activities.supervisorQualification === "Others" && (
+                        <div className="my-4">
+                          <TextInput
+                            type="text"
+                            required
+                            placeholder="Enter other qualification of supervisor"
+                            id="supervisor"
+                            name="otherSupervisorQualification"
+                            value={activities.otherSupervisorQualification}
+                            onChange={handleActivityChange}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </section>
+                </section>
+              )}
+            </div>
+          )}
+          <ActionBtn>{busy ? "submitting" : "submit"}</ActionBtn>
+        </div>
+      </fetcher.Form>
+    </main>
+  );
+};
+
+export default PrePlantingForm;

@@ -10,7 +10,7 @@ import {
   useNavigation,
 } from "react-router-dom";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import { dummyFarmers } from "../../utils/dummyData";
+import { dummyFarmers } from "../../../utils/dummyData";
 const DisplayFarmers = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDownloadModal, setOpenDownloadModal] = useState(false);
@@ -121,9 +121,9 @@ const DisplayFarmers = () => {
                         community
                         <Table.Cell>group </Table.Cell>
                         <Table.Cell>
-                          <Button onClick={() => console.log("edit farmer")}>
-                            Edit farmer
-                          </Button>
+                          <Link to={`${farmer.id}/edit`}>
+                            <Button>Edit farmer</Button>
+                          </Link>
                         </Table.Cell>
                       </Table.Row>
                     ))}
