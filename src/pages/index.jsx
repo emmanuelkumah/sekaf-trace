@@ -9,3 +9,6 @@ export { default as EditFarmer } from "./EditFarmer";
 export { default as DisplayFarmActivities } from "./DisplayFarmActivities";
 export { default as StartFarmActivity } from "./StartFarmActivity";
 export { default as SubmitPreplantingActivity } from "./SubmitPreplantingActivity";
+export { default as SubmitPlantingActivity } from "./SubmitPlantingActivity";
+export { default as SubmitLandPreperationActivity } from "./SubmitLandPreperationActivity";
+export { default as SubmitWeedControlActivity } from "./SubmitWeedControlActivity";

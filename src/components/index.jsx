@@ -13,3 +13,6 @@ export { default as UpdateUserStatus } from "./ui/users/UpdateUserStatus";
 export { default as FarmerForm } from "./ui/farmers/FarmerForm";
 export { default as FarmActivitiesGrid } from "./ui/farms/FarmActivitiesGrid";
 export { default as PrePlantingForm } from "./ui/Activities/PrePlanting/PrePlantingForm";
+export { default as PlantingForm } from "./ui/Activities/Planting/PlantingForm";
+export { default as LandPreparationForm } from "./ui/Activities/LandPreparation/LandPreparationForm";
+export { default as WeedControlForm } from "./ui/Activities/WeedControl/WeedControlForm";

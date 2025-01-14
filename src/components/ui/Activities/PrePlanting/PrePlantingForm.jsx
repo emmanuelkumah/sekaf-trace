@@ -9,7 +9,7 @@ import {
   Alert,
 } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
-import { useFetcher } from "react-router-dom";
+import { useFetcher, data, redirect } from "react-router-dom";
 import ActionBtn from "../../ActionBtn";
 
 const PrePlantingForm = () => {
@@ -30,11 +30,11 @@ const PrePlantingForm = () => {
     supervisorQualification: "",
     otherSupervisorQualification: "",
   });
-  console.log(activities);
   const defaultValue = new Date();
-  console.log(defaultValue); //change date format
   const fetcher = useFetcher();
   let busy = fetcher.state !== "idle";
+  const errors = fetcher.data?.errors;
+  console.log(errors);
 
   const handleActivityChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -46,13 +46,7 @@ const PrePlantingForm = () => {
 
   const handleActivityDate = (date) => {
     console.log("active date");
-    // const formattedDate = date.toISOString();
-    // console.log(date);
-    // setFormActivities((prev) => ({
-    //   ...prev,
-    //   activityDate: formattedDate,
-    // }));
-    //   setActivityDate(formattedDate);
+    setActivityDate(formattedDate);
   };
   return (
     <main className="container mx-auto">
@@ -73,14 +67,6 @@ const PrePlantingForm = () => {
                 value={activities.activityDate}
                 onChange={handleActivityChange}
               />
-              {/* <Datepicker
-                id="date"
-                placeholder="Select date"
-                value={activities.activityDate}
-                onSelectedDateChanged={(date) => handleActivityDate(date)}
-                name="activityDate"
-                required={true}
-              /> */}
 
               <div className="my-4">
                 <div className="flex flex-col">
@@ -97,6 +83,7 @@ const PrePlantingForm = () => {
                     value={activities.plantingMaterialSource}
                     onChange={handleActivityChange}
                   >
+                    <option>Select planting material source</option>
                     <option value="Local inputs dealer">
                       Local inputs dealer
                     </option>
@@ -106,6 +93,11 @@ const PrePlantingForm = () => {
                     <option value="Imported">Imported</option>
                     <option value="Others">Others</option>
                   </Select>
+                  {errors?.plantingMaterialSource && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.plantingMaterialSource}
+                    </p>
+                  )}
                 </div>
 
                 {activities.plantingMaterialSource === "Others" && (
@@ -123,6 +115,11 @@ const PrePlantingForm = () => {
                       onChange={handleActivityChange}
                       placeholder="Enter where you got the source from"
                     />
+                    {errors?.otherPlantingMaterialSource && (
+                      <p className="mt-1 text-sm text-red-600">
+                        {errors.otherPlantingMaterialSource}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
@@ -148,6 +145,11 @@ const PrePlantingForm = () => {
                   <option value="rhizome">Rhizome</option>
                   <option value="bulbs">Bulbs</option>
                 </Select>
+                {errors?.plantingMaterial && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.plantingMaterial}
+                  </p>
+                )}
               </div>
               <div className="my-4">
                 <Label
@@ -164,6 +166,11 @@ const PrePlantingForm = () => {
                   onChange={handleActivityChange}
                   placeholder="Enter quantity"
                 />
+                {errors?.plantingMaterialQuantity && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.plantingMaterialQuantity}
+                  </p>
+                )}
               </div>
               <div className="my-4">
                 <Label
@@ -180,6 +187,11 @@ const PrePlantingForm = () => {
                   value={activities.plantingMaterialYield}
                   onChange={handleActivityChange}
                 />
+                {errors?.plantingMaterialYield && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.plantingMaterialYield}
+                  </p>
+                )}
               </div>
               <div className="my-4">
                 <fieldset className="flex flex-col gap-4">
@@ -225,6 +237,7 @@ const PrePlantingForm = () => {
                   value={activities.plantingMaterialTreatmentMethod}
                   onChange={handleActivityChange}
                 >
+                  <option>Select treatment method</option>
                   <option value="Chemical">Chemical</option>
                   <option value="Hot water">Hot water</option>
                   <option value="Other">Other</option>
@@ -267,6 +280,11 @@ const PrePlantingForm = () => {
                         onChange={handleActivityChange}
                       />
                     </div>
+                    {errors?.chemicalSprayed && (
+                      <p className="mt-1 text-sm text-red-600">
+                        {errors.chemicalSprayed}
+                      </p>
+                    )}
                   </div>
                   <div className="my-4">
                     <div className="flex flex-col">
@@ -284,6 +302,11 @@ const PrePlantingForm = () => {
                         value={activities.rateOfChemicalApplication}
                         onChange={handleActivityChange}
                       />
+                      {errors?.rateOfChemicalApplication && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.rateOfChemicalApplication}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <section>
@@ -302,6 +325,11 @@ const PrePlantingForm = () => {
                         value={activities.supervisorName}
                         onChange={handleActivityChange}
                       />
+                      {errors?.supervisorName && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.supervisorName}
+                        </p>
+                      )}
                     </div>
                     <div className="my-2">
                       <Label
@@ -318,6 +346,11 @@ const PrePlantingForm = () => {
                         value={activities.supervisorContact}
                         onChange={handleActivityChange}
                       />
+                      {errors?.supervisorContact && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.supervisorContact}
+                        </p>
+                      )}
                     </div>
                     <div className="my-2">
                       <Label
@@ -333,10 +366,17 @@ const PrePlantingForm = () => {
                         value={activities.supervisorQualification}
                         onChange={handleActivityChange}
                       >
+                        {" "}
+                        <option>Select Qualification</option>
                         <option value="MOFA">MOFA</option>
                         <option value="EPA">EPA</option>
                         <option value="PPRSD/NPPO">PPRSD/NPPO</option>
                         <option value="Others">Others</option>
+                        {errors?.supervisorQualification && (
+                          <p className="mt-1 text-sm text-red-600">
+                            {errors.supervisorQualification}
+                          </p>
+                        )}
                       </Select>
                       {activities.supervisorQualification === "Others" && (
                         <div className="my-4">
@@ -350,6 +390,11 @@ const PrePlantingForm = () => {
                             onChange={handleActivityChange}
                           />
                         </div>
+                      )}
+                      {errors?.otherSupervisorQualification && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.otherSupervisorQualification}
+                        </p>
                       )}
                     </div>
                   </section>
@@ -365,3 +410,7 @@ const PrePlantingForm = () => {
 };
 
 export default PrePlantingForm;
+
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+};

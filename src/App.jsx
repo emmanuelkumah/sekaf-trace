@@ -10,8 +10,11 @@ import {
   Farms,
   Landing,
   StartFarmActivity,
+  SubmitPlantingActivity,
   SubmitPreplantingActivity,
+  SubmitLandPreperationActivity,
   Users,
+  SubmitWeedControlActivity,
 } from "./pages";
 import {
   HomeLayout,
@@ -23,6 +26,7 @@ import { NavigationProvider } from "./context/NavigationContext";
 import { action as addUserAction } from "./components/ui/users/AddUserForm";
 import { action as resetPasswordAction } from "./components/ui/users/ResetPasswordForm";
 import { action as updateUserAction } from "./components/ui/users/UpdateUserStatus";
+import { action as mutatePrePlantingActivities } from "./components/ui/Activities/PrePlanting/PrePlantingForm";
 
 const router = createBrowserRouter([
   {
@@ -113,14 +117,15 @@ const router = createBrowserRouter([
               {
                 path: "pre-planting",
                 element: <SubmitPreplantingActivity />,
+                action: mutatePrePlantingActivities,
               },
               {
                 path: "planting",
-                element: <h1>Planting screen</h1>,
+                element: <SubmitPlantingActivity />,
               },
               {
                 path: "land-preparation",
-                element: <h1>Land preparation screen</h1>,
+                element: <SubmitLandPreperationActivity />,
               },
               {
                 path: "harvesting",
@@ -128,7 +133,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "weed-control",
-                element: <h1>Weed control</h1>,
+                element: <SubmitWeedControlActivity />,
               },
               {
                 path: "pest-control",

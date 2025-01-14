@@ -66,3 +66,21 @@ export const activities = [
     link: "transportation",
   },
 ];
+
+export const landPreparationActivities = [
+  { id: "clearing", label: "Clearing", value: "CLEARING" },
+  {
+    id: "mound_moulding",
+    label: "Mound_moulding",
+    value: "MOUND_MOULDING",
+  },
+  { id: "ridging", label: "Ridging", value: "RIDGING" },
+  {
+    id: "manual_preparation",
+    label: "Manual_Preparation",
+    value: "MANUAL_PREPARATION",
+  },
+  { id: "ploughing", label: "Ploughing", value: "PLOUGHING" },
+  { id: "harrowing", label: "Harrowing", value: "HARROWING" },
+  { id: "spraying", label: "Spraying", value: "SPRAYING" },
+];
