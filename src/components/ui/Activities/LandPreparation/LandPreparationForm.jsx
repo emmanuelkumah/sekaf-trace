@@ -2,7 +2,7 @@ import React, { act, useState } from "react";
 import { Select, Label, TextInput, Datepicker, Checkbox } from "flowbite-react";
 import BackButton from "../../BackButton";
 import { useFetcher } from "react-router-dom";
-import ActionBtn from "../../ActionBtn";
+import ActionBtn from "../../SubmitBtn";
 import { landPreparationActivities } from "../../../../utils/farmActivities";
 const LandPreparationForm = () => {
   const [activities, setActivities] = useState({

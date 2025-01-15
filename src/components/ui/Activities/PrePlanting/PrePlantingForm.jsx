@@ -1,20 +1,12 @@
-import React, { act, useState } from "react";
-import {
-  Label,
-  TextInput,
-  Datepicker,
-  Select,
-  Radio,
-  Button,
-  Alert,
-} from "flowbite-react";
-import { HiInformationCircle } from "react-icons/hi";
+import React, { useState } from "react";
+import { Label, TextInput, Select, Radio } from "flowbite-react";
 import { useFetcher, data, redirect } from "react-router-dom";
-import ActionBtn from "../../ActionBtn";
+import SubmitBtn from "../../SubmitBtn";
+import { validatePreplantingFormData } from "../../../../utils/validatePreplantingFormData";
 
 const PrePlantingForm = () => {
   const [activities, setFormActivities] = useState({
-    activityDate: new Date(),
+    activityDate: new Date().toISOString().split("T")[0],
     plantingMaterialSource: "",
     otherPlantingMaterialSource: "",
     plantingMaterial: "",
@@ -30,11 +22,9 @@ const PrePlantingForm = () => {
     supervisorQualification: "",
     otherSupervisorQualification: "",
   });
-  const defaultValue = new Date();
   const fetcher = useFetcher();
   let busy = fetcher.state !== "idle";
   const errors = fetcher.data?.errors;
-  console.log(errors);
 
   const handleActivityChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -44,14 +34,11 @@ const PrePlantingForm = () => {
     }));
   };
 
-  const handleActivityDate = (date) => {
-    console.log("active date");
-    setActivityDate(formattedDate);
-  };
   return (
-    <main className="container mx-auto">
+    <main className="container mx-auto px-4">
+      <h2 className="text-2xl font-semibold mt-4">Pre-Planting Activities</h2>
       <fetcher.Form method="post" className="w-full">
-        <div className="grid grid-cols-1">
+        <div className="grid grid-cols-1 mt-4">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
               <Label
@@ -63,7 +50,7 @@ const PrePlantingForm = () => {
                 type="date"
                 name="activityDate"
                 id="date"
-                min={new Date()}
+                min={new Date().toISOString().split("T")[0]}
                 value={activities.activityDate}
                 onChange={handleActivityChange}
               />
@@ -79,6 +66,7 @@ const PrePlantingForm = () => {
                   <Select
                     id="source"
                     name="plantingMaterialSource"
+                    color={errors?.plantingMaterialSource && "failure"}
                     required
                     value={activities.plantingMaterialSource}
                     onChange={handleActivityChange}
@@ -111,6 +99,7 @@ const PrePlantingForm = () => {
                       id="seed"
                       type="text"
                       name="otherPlantingMaterialSource"
+                      color={errors?.otherPlantingMaterialSource && "failure"}
                       value={activities.otherPlantingMaterialSource}
                       onChange={handleActivityChange}
                       placeholder="Enter where you got the source from"
@@ -133,6 +122,7 @@ const PrePlantingForm = () => {
                   id="planting"
                   required
                   name="plantingMaterial"
+                  color={errors?.plantingMaterial && "failure"}
                   value={activities.plantingMaterial}
                   onChange={handleActivityChange}
                 >
@@ -160,8 +150,9 @@ const PrePlantingForm = () => {
                 <TextInput
                   id="quantity"
                   type="number"
-                  min="1"
+                  min="0"
                   name="plantingMaterialQuantity"
+                  color={errors?.plantingMaterialQuantity && "failure"}
                   value={activities.plantingMaterialQuantity}
                   onChange={handleActivityChange}
                   placeholder="Enter quantity"
@@ -181,7 +172,7 @@ const PrePlantingForm = () => {
                 <TextInput
                   id="yield"
                   type="number"
-                  min="1"
+                  min="0"
                   name="plantingMaterialYield"
                   placeholder="Enter yield"
                   value={activities.plantingMaterialYield}
@@ -242,6 +233,11 @@ const PrePlantingForm = () => {
                   <option value="Hot water">Hot water</option>
                   <option value="Other">Other</option>
                 </Select>
+                {errors?.plantingMaterialTreatmentMethod && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.plantingMaterialTreatmentMethod}
+                  </p>
+                )}
                 {activities.plantingMaterialTreatmentMethod === "Other" && (
                   <div className="my-4">
                     <Label
@@ -372,12 +368,12 @@ const PrePlantingForm = () => {
                         <option value="EPA">EPA</option>
                         <option value="PPRSD/NPPO">PPRSD/NPPO</option>
                         <option value="Others">Others</option>
-                        {errors?.supervisorQualification && (
-                          <p className="mt-1 text-sm text-red-600">
-                            {errors.supervisorQualification}
-                          </p>
-                        )}
                       </Select>
+                      {errors?.supervisorQualification && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.supervisorQualification}
+                        </p>
+                      )}
                       {activities.supervisorQualification === "Others" && (
                         <div className="my-4">
                           <TextInput
@@ -402,7 +398,7 @@ const PrePlantingForm = () => {
               )}
             </div>
           )}
-          <ActionBtn>{busy ? "submitting" : "submit"}</ActionBtn>
+          <SubmitBtn busy={busy} />
         </div>
       </fetcher.Form>
     </main>
@@ -413,4 +409,88 @@ export default PrePlantingForm;
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
+  const errors = validatePreplantingFormData(formData);
+
+  if (Object.keys(errors).length > 0) {
+    return data({ errors }, { status: 400 });
+  }
+
+  const getPlantingMaterialSource = () => {
+    if (formData.get("plantingMaterialSource") === "Others") {
+      return formData.get("otherPlantingMaterialSource");
+    }
+    return formData.get("plantingMaterialSource");
+  };
+
+  const isPlantingMaterialTreated = () => {
+    return formData.get("isPlantingMaterialTreated") === "yes";
+  };
+
+  const getSupervisorQualification = () => {
+    if (formData.get("supervisorQualification") === "Others") {
+      return formData.get("otherSupervisorQualification");
+    }
+    return formData.get("supervisorQualification");
+  };
+
+  const getRequiredDataToSubmit = () => {
+    const plantingMaterialSource = getPlantingMaterialSource();
+    const isMaterialTreated = isPlantingMaterialTreated();
+    const treatmentMethod = formData.get("plantingMaterialTreatmentMethod");
+
+    if (isMaterialTreated && treatmentMethod === "Chemical") {
+      return {
+        activityDate: formData.get("activityDate"),
+        plantingMaterial: formData.get("plantingMaterial"),
+        plantingMaterialSource,
+        plantingMaterialQuantity: formData.get("plantingMaterialQuantity"),
+        plantingMaterialYield: Number(formData.get("plantingMaterialYield")),
+        isMaterialTreated,
+        plantingMaterialTreatmentMethod: treatmentMethod,
+        chemicalSprayed: formData.get("chemicalSprayed"),
+        rateOfChemicalApplication: formData.get("rateOfChemicalApplication"),
+        supervisorName: formData.get("supervisorName"),
+        supervisorContact: formData.get("supervisorContact"),
+        supervisorQualification: getSupervisorQualification(),
+      };
+    }
+
+    if (isMaterialTreated && treatmentMethod === "Other") {
+      return {
+        activityDate: formData.get("activityDate"),
+        plantingMaterial: formData.get("plantingMaterial"),
+        plantingMaterialSource,
+        plantingMaterialQuantity: formData.get("plantingMaterialQuantity"),
+        plantingMaterialYield: Number(formData.get("plantingMaterialYield")),
+        isMaterialTreated,
+        plantingMaterialTreatmentMethod: treatmentMethod,
+        otherTreatmentMethod: formData.get("otherTreatmentMethod"),
+      };
+    }
+    if (isMaterialTreated && treatmentMethod === "Hot water") {
+      return {
+        activityDate: formData.get("activityDate"),
+        plantingMaterial: formData.get("plantingMaterial"),
+        plantingMaterialSource,
+        plantingMaterialQuantity: formData.get("plantingMaterialQuantity"),
+        plantingMaterialYield: Number(formData.get("plantingMaterialYield")),
+        isMaterialTreated,
+        plantingMaterialTreatmentMethod: treatmentMethod,
+      };
+    }
+    return {
+      activityDate: formData.get("activityDate"),
+      plantingMaterial: formData.get("plantingMaterial"),
+      plantingMaterialSource,
+      plantingMaterialQuantity: formData.get("plantingMaterialQuantity"),
+      plantingMaterialYield: Number(formData.get("plantingMaterialYield")),
+      isMaterialTreated,
+    };
+  };
+
+  const preplantingData = getRequiredDataToSubmit();
+
+  console.log(preplantingData);
+  // Redirect to dashboard if validation is successful
+  return redirect("/app/farms");
 };

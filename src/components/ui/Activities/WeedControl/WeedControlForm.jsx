@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Select, Label, TextInput } from "flowbite-react";
 import { useFetcher } from "react-router-dom";
-import ActionBtn from "../../ActionBtn";
+import ActionBtn from "../../SubmitBtn";
 const WeedControlForm = () => {
   const [activities, setActivities] = useState({
     activityDate: new Date(),

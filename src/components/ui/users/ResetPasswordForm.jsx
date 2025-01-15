@@ -4,7 +4,7 @@ import { useFetcher, data, redirect } from "react-router-dom";
 import { TextInput } from "flowbite-react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 
-import ActionBtn from "../ActionBtn";
+import ActionBtn from "../SubmitBtn";
 const ResetPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 

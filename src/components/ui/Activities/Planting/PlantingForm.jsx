@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Select, Label, TextInput, Datepicker } from "flowbite-react";
 import BackButton from "../../BackButton";
 import { useFetcher } from "react-router-dom";
-import ActionBtn from "../../ActionBtn";
+import ActionBtn from "../../SubmitBtn";
 const PlantingForm = () => {
   const [activities, setActivities] = useState({
     activityDate: "",

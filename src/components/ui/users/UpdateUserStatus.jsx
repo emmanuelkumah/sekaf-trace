@@ -3,7 +3,7 @@ import { Label, Radio, Button } from "flowbite-react";
 import { useFetcher, data, redirect } from "react-router-dom";
 
 import BackButton from "../BackButton";
-import ActionBtn from "../ActionBtn";
+import ActionBtn from "../SubmitBtn";
 const UpdateUserStatus = () => {
   const fetcher = useFetcher();
   let busy = fetcher.state !== "idle";

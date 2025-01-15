@@ -3,13 +3,11 @@ import { TextInput, Select } from "flowbite-react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 import { useFetcher, data, redirect } from "react-router-dom";
 import BackButton from "../BackButton";
-import ActionBtn from "../ActionBtn";
-// import { Form } from "react-router-dom";
+import SubmitBtn from "../SubmitBtn";
 const AddUserForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const fetcher = useFetcher();
-  let busy = fetcher.state !== "idle";
 
   let errors = fetcher.data?.errors;
 
@@ -170,7 +168,7 @@ const AddUserForm = () => {
                 <option value="EXPORTER ">Exporter</option>
               </Select>
             </section>
-            <ActionBtn>{busy ? "submitting" : "submit"}</ActionBtn>
+            <SubmitBtn />
           </fetcher.Form>
         </div>
       </div>

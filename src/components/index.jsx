@@ -7,7 +7,7 @@ export { default as DisplayUser } from "./ui/users/DisplayUser";
 export { default as DisplayFarmers } from "./ui/farmers/DisplayFarmers";
 export { default as DisplayFarms } from "./ui/DisplayFarms";
 export { default as AddUserForm } from "./ui/users/AddUserForm";
-export { default as ActionBtn } from "./ui/ActionBtn";
+export { default as SubmitBtn } from "./ui/SubmitBtn";
 export { default as ResetPasswordForm } from "./ui/users/ResetPasswordForm";
 export { default as UpdateUserStatus } from "./ui/users/UpdateUserStatus";
 export { default as FarmerForm } from "./ui/farmers/FarmerForm";
