@@ -12,3 +12,5 @@ export { default as SubmitPreplantingActivity } from "./SubmitPreplantingActivit
 export { default as SubmitPlantingActivity } from "./SubmitPlantingActivity";
 export { default as SubmitLandPreperationActivity } from "./SubmitLandPreperationActivity";
 export { default as SubmitWeedControlActivity } from "./SubmitWeedControlActivity";
+export { default as SubmitFertilizingActivity } from "./SubmitFertilizingActivity";
+export { default as SubmitPestControlActivity } from "./SubmitPestControlActivity";

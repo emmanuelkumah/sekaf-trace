@@ -16,3 +16,5 @@ export { default as PrePlantingForm } from "./ui/Activities/PrePlanting/PrePlant
 export { default as PlantingForm } from "./ui/Activities/Planting/PlantingForm";
 export { default as LandPreparationForm } from "./ui/Activities/LandPreparation/LandPreparationForm";
 export { default as WeedControlForm } from "./ui/Activities/WeedControl/WeedControlForm";
+export { default as FertilizingForm } from "./ui/Activities/Fertilizing/FertilizingForm";
+export { default as PestControlForm } from "./ui/Activities/PestControl/PestControlForm";

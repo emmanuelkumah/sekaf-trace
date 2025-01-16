@@ -15,6 +15,8 @@ import {
   SubmitLandPreperationActivity,
   Users,
   SubmitWeedControlActivity,
+  SubmitFertilizingActivity,
+  SubmitPestControlActivity,
 } from "./pages";
 import {
   HomeLayout,
@@ -134,7 +136,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "harvesting",
-                element: <h1>Harvesting screen</h1>,
+                element: "Submit harvesting activity",
               },
               {
                 path: "weed-control",
@@ -143,11 +145,11 @@ const router = createBrowserRouter([
               },
               {
                 path: "pest-control",
-                element: <h1>Pest control</h1>,
+                element: <SubmitPestControlActivity />,
               },
               {
                 path: "fertilizing",
-                element: <h1>Fertilizing screen</h1>,
+                element: <SubmitFertilizingActivity />,
               },
               {
                 path: "storage",

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Select, Label, TextInput } from "flowbite-react";
 import BackButton from "../../BackButton";
 import { useFetcher, data, redirect } from "react-router-dom";
-import ActionBtn from "../../SubmitBtn";
+import SubmitBtn from "../../SubmitBtn";
 import validatePlantingForm from "../../../../validate/validatePlantingForm";
 const PlantingForm = () => {
   const [activities, setActivities] = useState({
@@ -169,7 +169,7 @@ const PlantingForm = () => {
               />
             </div>
           )}
-          <ActionBtn>{busy ? "submitting" : "submit"}</ActionBtn>
+          <SubmitBtn busy={busy} />
         </fetcher.Form>
       </div>
     </>
