@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Select, Label, TextInput, Datepicker } from "flowbite-react";
+import { Select, Label, TextInput } from "flowbite-react";
 import BackButton from "../../BackButton";
-import { useFetcher } from "react-router-dom";
+import { useFetcher, data, redirect } from "react-router-dom";
 import ActionBtn from "../../SubmitBtn";
+import validatePlantingForm from "../../../../validate/validatePlantingForm";
 const PlantingForm = () => {
   const [activities, setActivities] = useState({
     activityDate: "",
@@ -14,9 +15,11 @@ const PlantingForm = () => {
     supervisorQualitification: "",
     otherQualification: "",
   });
-  console.log(activities);
   const fetcher = useFetcher();
   let busy = fetcher.state !== "idle";
+  const errors = fetcher.data?.errors;
+
+  console.log(errors);
 
   const handlePlantingActivityChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,14 +27,6 @@ const PlantingForm = () => {
       ...prevVal,
       [name]: type === "checked" ? checked : value,
     }));
-  };
-  const handleDateChange = (date) => {
-    const formattedDate = date.toISOString();
-    console.log(formattedDate);
-    // setActivities((prevVal) => ({
-    //   ...prevVal,
-    //   activityDate: formattedDate,
-    // }));
   };
 
   return (
@@ -48,7 +43,7 @@ const PlantingForm = () => {
               type="date"
               name="activityDate"
               id="date"
-              min={new Date()}
+              min={new Date().toISOString().split("T")[0]}
               value={activities.activityDate}
               onChange={handlePlantingActivityChange}
             />
@@ -62,13 +57,15 @@ const PlantingForm = () => {
             />
             <TextInput
               type="text"
-              required
               placeholder="Crop name"
               name="cropName"
               id="crop"
               value={activities.cropName}
               onChange={handlePlantingActivityChange}
             />
+            {errors?.cropName && (
+              <p className="mt-1 text-sm text-red-600">{errors.cropName}</p>
+            )}
           </div>
           <div className="my-4">
             <Label
@@ -78,7 +75,6 @@ const PlantingForm = () => {
             />
             <TextInput
               type="number"
-              required
               placeholder="Kilo of seeds planted"
               name="kilosPlanted"
               id="kilo"
@@ -181,3 +177,28 @@ const PlantingForm = () => {
 };
 
 export default PlantingForm;
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const errors = validatePlantingForm(formData);
+
+  if (Object.keys(errors).length > 0) {
+    return data({ errors }, { status: 400 });
+  }
+  const getSupervisorQualification = () => {
+    if (formData.get("supervisorQualification") === "Others") {
+      return formData.get("otherSupervisorQualification");
+    }
+    return formData.get("supervisorQualification");
+  };
+  const plantingData = {
+    activityDate: formData.get("activityDate"),
+    cropName: formData.get("cropName"),
+    kilosPlanted: formData.get("kilosPlanted"),
+    landSizeCovered: formData.get("landSizeCovered"),
+    supervisorName: formData.get("supervisorName"),
+    supervisorContact: formData.get("supervisorContact"),
+    supervisorQualitification: getSupervisorQualification(),
+  };
+  console.log(plantingData);
+  return redirect("/app/farms");
+};

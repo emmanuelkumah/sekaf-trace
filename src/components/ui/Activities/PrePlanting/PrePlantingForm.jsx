@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Label, TextInput, Select, Radio } from "flowbite-react";
 import { useFetcher, data, redirect } from "react-router-dom";
 import SubmitBtn from "../../SubmitBtn";
-import { validatePreplantingFormData } from "../../../../utils/validatePreplantingFormData";
+import { validatePreplantingFormData } from "../../../../validate/validatePreplantingFormData";
 
 const PrePlantingForm = () => {
   const [activities, setFormActivities] = useState({

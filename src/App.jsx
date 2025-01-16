@@ -27,6 +27,9 @@ import { action as addUserAction } from "./components/ui/users/AddUserForm";
 import { action as resetPasswordAction } from "./components/ui/users/ResetPasswordForm";
 import { action as updateUserAction } from "./components/ui/users/UpdateUserStatus";
 import { action as mutatePrePlantingActivities } from "./components/ui/Activities/PrePlanting/PrePlantingForm";
+import { action as mutateWeedControlActivities } from "./components/ui/Activities/WeedControl/WeedControlForm";
+import { action as mutateLandPreparationActivities } from "./components/ui/Activities/LandPreparation/LandPreparationForm";
+import { action as mutatePlantingActivities } from "./components/ui/Activities/Planting/PlantingForm";
 
 const router = createBrowserRouter([
   {
@@ -122,10 +125,12 @@ const router = createBrowserRouter([
               {
                 path: "planting",
                 element: <SubmitPlantingActivity />,
+                action: mutatePlantingActivities,
               },
               {
                 path: "land-preparation",
                 element: <SubmitLandPreperationActivity />,
+                action: mutateLandPreparationActivities,
               },
               {
                 path: "harvesting",
@@ -134,6 +139,7 @@ const router = createBrowserRouter([
               {
                 path: "weed-control",
                 element: <SubmitWeedControlActivity />,
+                action: mutateWeedControlActivities,
               },
               {
                 path: "pest-control",

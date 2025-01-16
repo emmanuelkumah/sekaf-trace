@@ -193,3 +193,7 @@ const LandPreparationForm = () => {
 };
 
 export default LandPreparationForm;
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  console.log("Action triggered");
+};
