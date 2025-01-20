@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import {
+  Login,
   AddFarmer,
   AddUser,
   DisplayFarmActivities,
@@ -25,6 +26,7 @@ import {
   UpdateUserStatus,
 } from "./components";
 import { NavigationProvider } from "./context/NavigationContext";
+import AuthProvider from "./context/AuthContext";
 import { action as addUserAction } from "./components/ui/users/AddUserForm";
 import { action as resetPasswordAction } from "./components/ui/users/ResetPasswordForm";
 import { action as updateUserAction } from "./components/ui/users/UpdateUserStatus";
@@ -44,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: <h1>Login screen</h1>,
+        element: <Login />,
       },
       {
         path: "register",
@@ -181,7 +183,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <NavigationProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </NavigationProvider>
   );
 }
