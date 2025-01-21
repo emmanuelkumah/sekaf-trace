@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import {
   Login,
+  DisplayDashboard,
   AddFarmer,
   AddUser,
   DisplayFarmActivities,
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>Dashboard</h1>,
+        element: <DisplayDashboard />,
       },
       {
         path: "users",

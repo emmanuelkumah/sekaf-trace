@@ -34,7 +34,6 @@ const AuthProvider = ({ children }) => {
 
   //login function
   const loginUser = async (email, password) => {
-    console.log(`User ${email} is trying to login`);
     const loginDetails = {
       email,
       password,
