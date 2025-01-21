@@ -2,21 +2,33 @@ import { useState } from "react";
 import { Table, Button, Alert } from "flowbite-react";
 import { MdEdit, MdPassword } from "react-icons/md";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import { dummyUsers } from "../../../utils/dummyData";
-
+import { apiCalls } from "../../../api/axios";
 import { Link, useSearchParams, useLoaderData } from "react-router-dom";
 const DisplayUser = () => {
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
 
   const [searchParams, setSearchParams] = useSearchParams();
+
   const currentPage = parseInt(searchParams.get("page") || "0", 10);
   const pageSize = 5;
-  const totalPages = Math.ceil(dummyUsers.length / pageSize);
+  console.log(currentPage);
+  console.log(searchParams);
+  const { data, totalPages } = useLoaderData();
+  console.log(Array.isArray(data));
+  if (!Array.isArray(data)) {
+    console.error("Data is not an array:", data);
+    return <div>Error loading users. Please try again.</div>;
+  }
 
   const handleSearch = (e) => {
     const newSearchTerm = e.target.value;
     setSearch(newSearchTerm);
+  };
+
+  const handlePageChange = (newPage) => {
+    // Update URL search params with new page number
+    setSearchParams({ page: newPage.toString(), pageSize });
   };
   return (
     <div>
@@ -64,43 +76,37 @@ const DisplayUser = () => {
                   <span className="sr-only">Edit</span>
                 </Table.HeadCell>
               </Table.Head>
-              {dummyUsers
-                ?.filter((user) => {
-                  return search.toLowerCase() === ""
-                    ? user
-                    : user.firstName.toLowerCase().includes(search);
-                })
-                .map((user) => (
-                  <Table.Body className="divide-y" key={user.id}>
-                    <Table.Row className="bg-white border-gray-700 dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {user.firstName}
-                      </Table.Cell>
-                      <Table.Cell>{user.lastName}</Table.Cell>
-                      <Table.Cell>{user.email}</Table.Cell>
-                      <Table.Cell>{user.phoneNumber}</Table.Cell>
-                      <Table.Cell>Role</Table.Cell>
+              {data.map((user) => (
+                <Table.Body className="divide-y" key={user.id}>
+                  <Table.Row className="bg-white border-gray-700 dark:border-gray-700 dark:bg-gray-800">
+                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                      {user.firstName}
+                    </Table.Cell>
+                    <Table.Cell>{user.lastName}</Table.Cell>
+                    <Table.Cell>{user.email}</Table.Cell>
+                    <Table.Cell>{user.phone}</Table.Cell>
+                    <Table.Cell>{user.roles}</Table.Cell>
 
-                      <Table.Cell>
-                        <div className="flex justify-end gap-5">
-                          <Link to={`${user.id}/edit-user`}>
-                            <MdEdit className="text-xl hover:text-teal-500 cursor-pointer" />
+                    <Table.Cell>
+                      <div className="flex justify-end gap-5">
+                        <Link to={`${user.id}/edit-user`}>
+                          <MdEdit className="text-xl hover:text-teal-500 cursor-pointer" />
+                        </Link>
+                        <div>
+                          <Link to={`${user.id}/update-status`}>
+                            Disable user
                           </Link>
-                          <div>
-                            <Link to={`${user.id}/update-status`}>
-                              Disable user
-                            </Link>
-                          </div>
-                          <div>
-                            <Link to={`${user.id}/reset-password`}>
-                              <MdPassword className="text-xl hover:text-primary cursor-pointer" />
-                            </Link>
-                          </div>
                         </div>
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                ))}
+                        <div>
+                          <Link to={`${user.id}/reset-password`}>
+                            <MdPassword className="text-xl hover:text-primary cursor-pointer" />
+                          </Link>
+                        </div>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              ))}
             </Table>
           </div>
         </div>
@@ -135,3 +141,18 @@ const DisplayUser = () => {
 };
 
 export default DisplayUser;
+
+export const loader = async ({ request }) => {
+  const url = new URL(request.url);
+  const page = url.searchParams.get("page") || "0";
+  const size = url.searchParams.get("pageSize") || "5";
+
+  try {
+    const response = await apiCalls.getUsers(page, size);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error.response;
+  }
+};

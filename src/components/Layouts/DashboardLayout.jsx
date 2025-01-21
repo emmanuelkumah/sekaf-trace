@@ -1,6 +1,7 @@
 import { useNavigationContext } from "../../context/NavigationContext";
 import { Sidebar, Navbar } from "..";
 import { Outlet, Link, NavLink } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const DashboardLayout = () => {
   const { activeMenu, setActiveMenu } = useNavigationContext();
@@ -27,6 +28,7 @@ const DashboardLayout = () => {
           </div>
           <Outlet />
         </div>
+        <ToastContainer />
       </section>
     </>
   );

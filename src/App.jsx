@@ -36,6 +36,9 @@ import { action as mutateWeedControlActivities } from "./components/ui/Activitie
 import { action as mutateLandPreparationActivities } from "./components/ui/Activities/LandPreparation/LandPreparationForm";
 import { action as mutatePlantingActivities } from "./components/ui/Activities/Planting/PlantingForm";
 
+// loaders
+import { loader as loadUsers } from "./components/ui/users/DisplayUser";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -69,6 +72,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Users />,
+            loader: loadUsers,
           },
           {
             path: "new-user",
