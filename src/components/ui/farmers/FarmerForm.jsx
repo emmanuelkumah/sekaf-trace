@@ -17,7 +17,7 @@ const FarmerForm = () => {
   const fetcher = useFetcher();
   return (
     <>
-      <div className="bg-secondary w-full md:w-1/2 h-[100%] rounded-lg shadow-md container mx-auto">
+      <div className="bg-secondary my-10 w-full md:w-1/2 h-[100%] rounded-lg shadow-md container mx-auto">
         <div className="mx-14 py-4">
           <BackButton />
         </div>
