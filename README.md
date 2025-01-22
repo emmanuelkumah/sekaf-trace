@@ -1,10 +1,17 @@
-# React + Vite
+# Traceability Farm web app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Farm Traceability Web App
 
-Currently, two official plugins are available:
+A comprehensive web application for tracking and managing agricultural products from farm to table, ensuring complete supply chain transparency and food safety compliance.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-# rml-traceability
-# rml-traceability
+## Features
+
+-Product Tracking
+-Real-time tracking of agricultural products throughout the supply chain
+-QR code generation for each batch of products
+-Detailed history of product movement and handling
+
+## Technology Stack
+
+-Frontend: React.js
+-Authentication: JWT
